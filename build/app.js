@@ -28397,7 +28397,8 @@ webpackJsonp([1,2],{
 	var platform_browser_1 = __webpack_require__(355);
 	var app_component_1 = __webpack_require__(367);
 	var http_1 = __webpack_require__(354);
-	var forms_1 = __webpack_require__(369);
+	var forms_1 = __webpack_require__(370);
+	var subreddit_service_1 = __webpack_require__(369);
 	var angular2_materialize_1 = __webpack_require__(360);
 	var AppModule = (function () {
 	    function AppModule() {
@@ -28409,7 +28410,7 @@ webpackJsonp([1,2],{
 	                http_1.HttpModule],
 	            declarations: [app_component_1.AppComponent, angular2_materialize_1.MaterializeDirective],
 	            bootstrap: [app_component_1.AppComponent],
-	            providers: []
+	            providers: [subreddit_service_1.SubReddits]
 	        }), 
 	        __metadata('design:paramtypes', [])
 	    ], AppModule);
@@ -28434,12 +28435,12 @@ webpackJsonp([1,2],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	var core_1 = __webpack_require__(351);
-	var http_1 = __webpack_require__(354);
 	__webpack_require__(1);
 	var electron_1 = __webpack_require__(368);
+	var subreddit_service_1 = __webpack_require__(369);
 	var AppComponent = (function () {
-	    function AppComponent(http, zone) {
-	        this.http = http;
+	    function AppComponent(subreddit, zone) {
+	        this.subreddit = subreddit;
 	        this.zone = zone;
 	        this.showcards = false;
 	        this.resultloader = false;
@@ -28449,21 +28450,7 @@ webpackJsonp([1,2],{
 	    AppComponent.prototype.GetReddit = function () {
 	        var _this = this;
 	        this.resultloader = true;
-	        this.http.get('https://reddit.com/r/' + this.subr + '.json')
-	            .map(function (res) { return res.json(); })
-	            .map(function (json) { return json.data.children; })
-	            .map(function (res) { return res.map(function (e) {
-	            var temp = 'http://placehold.it/70x70';
-	            if (e.data.preview != undefined) {
-	                temp = e.data.preview.images[0].source.url;
-	            }
-	            return {
-	                id: e.data.id,
-	                title: e.data.title,
-	                url: e.data.url,
-	                image: temp
-	            };
-	        }); })
+	        this.subreddit.getData(this.subr)
 	            .subscribe(function (data) {
 	            _this.entries = data;
 	            _this.zone.run(function () {
@@ -28481,7 +28468,7 @@ webpackJsonp([1,2],{
 	            selector: 'app',
 	            templateUrl: 'templates/app.component.html'
 	        }), 
-	        __metadata('design:paramtypes', [http_1.Http, core_1.NgZone])
+	        __metadata('design:paramtypes', [subreddit_service_1.SubReddits, core_1.NgZone])
 	    ], AppComponent);
 	    return AppComponent;
 	}());
@@ -28498,6 +28485,53 @@ webpackJsonp([1,2],{
 /***/ },
 
 /***/ 369:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	var core_1 = __webpack_require__(351);
+	var http_1 = __webpack_require__(354);
+	var SubReddits = (function () {
+	    function SubReddits(http) {
+	        this.http = http;
+	    }
+	    SubReddits.prototype.getData = function (title) {
+	        return this.http.get('https://reddit.com/r/' + title + '.json')
+	            .map(function (res) { return res.json(); })
+	            .map(function (json) { return json.data.children; })
+	            .map(function (res) { return res.map(function (e) {
+	            var temp = 'http://placehold.it/70x70';
+	            if (e.data.preview != undefined) {
+	                temp = e.data.preview.images[0].source.url;
+	            }
+	            return {
+	                id: e.data.id,
+	                title: e.data.title,
+	                url: e.data.url,
+	                image: temp
+	            };
+	        }); });
+	    };
+	    SubReddits = __decorate([
+	        core_1.Injectable(), 
+	        __metadata('design:paramtypes', [http_1.Http])
+	    ], SubReddits);
+	    return SubReddits;
+	}());
+	exports.SubReddits = SubReddits;
+
+
+/***/ },
+
+/***/ 370:
 /***/ function(module, exports, __webpack_require__) {
 
 	/**

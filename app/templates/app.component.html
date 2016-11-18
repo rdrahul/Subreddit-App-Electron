@@ -1,87 +1,87 @@
 
 
-<div class="container" >
+  <div class="container" >
 
-  
-  <div class="row">
-    <div class="col s5 offset-s3" >
-      <div class="nav-wrapper card">
-          <form>
-            <div class="input-field ">
-              <input id="search" autofocus type="search" (keyup.enter)="GetReddit()" [(ngModel)]="subr" name ="search" required>
-            </div>
-          </form>
+    
+    <div class="row">
+      <div class="col s5 offset-s3" >
+        <div class="nav-wrapper card">
+            <form>
+              <div class="input-field ">
+                <input id="search" autofocus type="search" (keyup.enter)="GetReddit()" [(ngModel)]="subr" name ="search" required>
+              </div>
+            </form>
+        </div>
+        
       </div>
+      <div class="col s2" >
+        <button class="btn-floating btn-large waves-effect waves-light fab-color additional " (click) = "GetReddit()" >
+          <i class="material-icons">search</i>
+        </button>
+      </div>
+
+    </div>
+    
+
+    <!--
+
+
+  <form materialize class="col s12">
+    <div class="row">
+      <div class="input-field col s6">
+        <input  id="first_name" type="text" class="validate" >
+        <label for="first_name">First Name</label>
+      </div>
+      <div class ="padd" >
+        <button class="btn waves-effect waves-light" type="submit" (click) = "GetReddit()"  name="action">Submit
+          <i class="material-icons right">send</i>
+        </button>
+      </div>
+    </div>
+  </form>
+  -->
+
+  <div *ngIf="showcards" class="col s12 m7" >
       
-    </div>
-    <div class="col s2" >
-      <button class="btn-floating btn-large waves-effect waves-light fab-color additional " (click) = "GetReddit()" >
-        <i class="material-icons">search</i>
-      </button>
+    <div class="row" *ngFor = "let entry of entries" >
+        <div class="card horizontal col s10 offset-s1"  >
+          <div  class ="col s2 ">
+              <img class="image" src="{{entry.image}}" > 
+          </div>
+
+          <div class="col s9 ">
+
+                <div class="card-content col s12">
+                  <p>{{entry.title}}</p>
+                </div>            
+          </div>
+
+          <div class="col s1" >
+                  <button class="btn-floating btn-large waves-effect waves-light fab-color additional " (click) = "OpenLink(entry.url)" >
+                    <i class="material-icons">send</i>
+                  </button>
+          </div>
+
+        </div>
+
+
+      
+
     </div>
 
   </div>
-  
 
-  <!--
-
-
-<form materialize class="col s12">
-  <div class="row">
-    <div class="input-field col s6">
-      <input  id="first_name" type="text" class="validate" >
-      <label for="first_name">First Name</label>
-    </div>
-    <div class ="padd" >
-      <button class="btn waves-effect waves-light" type="submit" (click) = "GetReddit()"  name="action">Submit
-        <i class="material-icons right">send</i>
-      </button>
-    </div>
+  <div *ngIf="resultloader" class="loader" >
+    <div class="preloader-wrapper big active loader">
+        <div class="spinner-layer spinner-yellow-only">
+          <div class="circle-clipper left">
+            <div class="circle"></div>
+          </div><div class="gap-patch">
+            <div class="circle"></div>
+          </div><div class="circle-clipper right">
+            <div class="circle"></div>
+          </div>
+        </div>
   </div>
-</form>
--->
 
- <div *ngIf="showcards" class="col s12 m7" >
-    
-   <div class="row" *ngFor = "let entry of entries" >
-      <div class="card horizontal col s10 offset-s1"  >
-        <div  class ="col s2 ">
-            <img class="image" src="{{entry.image}}" > 
-        </div>
-
-        <div class="col s9 ">
-
-              <div class="card-content col s12">
-                <p>{{entry.title}}</p>
-              </div>            
-        </div>
-
-        <div class="col s1" >
-                <button class="btn-floating btn-large waves-effect waves-light fab-color additional " (click) = "OpenLink(entry.url)" >
-                  <i class="material-icons">send</i>
-                </button>
-        </div>
-
-      </div>
-
-
-    
-
-   </div>
-
- </div>
-
-<div *ngIf="resultloader" class="loader" >
-   <div class="preloader-wrapper big active loader">
-      <div class="spinner-layer spinner-yellow">
-        <div class="circle-clipper left">
-          <div class="circle"></div>
-        </div><div class="gap-patch">
-          <div class="circle"></div>
-        </div><div class="circle-clipper right">
-          <div class="circle"></div>
-        </div>
-      </div>
-</div>
-
-</div>
+  </div>

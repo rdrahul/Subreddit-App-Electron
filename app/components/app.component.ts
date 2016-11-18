@@ -2,7 +2,7 @@ import { Component , NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs';
 import {shell} from 'electron';
-
+import {SubReddits} from './../services/subreddit.service';
 @Component(
     {
         selector:'app',
@@ -17,7 +17,7 @@ export class AppComponent
     showcards : boolean = false;
     resultloader:boolean =false;
 
-    constructor( private http:Http , private zone:NgZone )
+    constructor( private subreddit:SubReddits , private zone:NgZone )
     {
         this.subr = "angular";
         this.GetReddit();
@@ -26,26 +26,7 @@ export class AppComponent
     GetReddit()
     {
         this.resultloader= true;
-        this.http.get('https://reddit.com/r/' + this.subr + '.json')
-        .map(res => res.json())
-        .map(json=> json.data.children)
-        .map( res => res.map( e =>
-                {
-                    let temp = 'http://placehold.it/70x70';
-                    if (e.data.preview != undefined )
-                    {
-                        temp = e.data.preview.images[0].source.url;
-                    }
-
-                    return {
-                        id : e.data.id,
-                        title : e.data.title,
-                        url : e.data.url,
-                        image : temp 
-                    }
-                }
-            )
-        )
+        this.subreddit.getData( this.subr)
         .subscribe( data =>
             {
                 this.entries = data;

@@ -7,6 +7,8 @@ body
 .additional
 {
     margin: 5px -10px;
+    width: 30px;
+    height: 30px;
 }
 .heading 
 {
@@ -40,7 +42,7 @@ body
 {
     z-index: 20002;
     position: fixed;
-    top: 50vh;
-    left : 50vw;
+    top: 50vh ;
+    left : 50vw ;
     margin: 0 auto;
 }
